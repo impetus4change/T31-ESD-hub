@@ -3,4 +3,5 @@ IMPETUS4CHANGE
 data
 .Rproj.user
 T31-ESD-hub.Rproj
-.gitignore
+*.nc
+*.rda
