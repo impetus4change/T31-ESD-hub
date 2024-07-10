@@ -1,0 +1,61 @@
+Description:
+  Author: E. Duzenli
+  Info: I4C Seasonal Downscaling
+
+Analysis:
+  Horizon: seasonal
+  Variables:
+    name: tas
+    freq: daily_mean
+  ncores: 4
+  Datasets:
+    System:
+      name: ECMWF-SEAS5
+    Multimodel: no
+    Reference:
+      name: CERRA
+  Time:
+    sdate: '0101'
+    fcst_year:  # Forecast initialization year 'YYYY' (Optional, int)
+    hcst_start: '1993'
+    hcst_end: '2016'
+    ftime_min: 1
+    ftime_max: 1
+#sometimes we want the region for the obs to be bigger than for hcst
+  Region:
+    latmin: 39
+    latmax: 44
+    lonmin: -1
+    lonmax: 4
+  Regrid:
+    method: none
+    type: none
+  Workflow:
+    Calibration:
+      method: none
+    Skill:
+      metric: BSS10 BSS90 RPSS
+      save: none
+    Anomalies:
+      compute: TRUE
+      cross_validation: FALSE
+      save: none
+    Downscaling:
+      # Assumption 1: leave-one-out cross-validation is always applied
+      # Assumption 2: for analogs, we select the best analog (minimum distance)
+      # TO DO: add downscaling to point locations
+      type: # mandatory, 'none', 'int', 'intbc', 'intlr', 'analogs', 'logreg'
+      int_method: # optional, regridding method accepted by CDO 
+      bc_method: # optional, "quantile_mapping", "bias", "evmos", "mse_min", "cprs_min", "rps-based", "qm"
+      lr_method: # optional, 'basic', 'large_scale', '4nn' 
+      log_reg_method: # optional, 'ens_mean', 'ens_mean_sd', 'sorted_members'
+      target_grid: /home/jovyan/IMPETUS4CHANGE/data/BSC/CERRA/monthly_mean/tas_f3h-r2631x1113/tas_202007.nc  #r7200x3600  # optional, nc file or grid accepted by CDO
+      nanalogs: # optional, number of analogs to be searched
+      save: none
+  Output_format: S2S4E
+Run:
+  Loglevel: INFO
+  Terminal: yes
+  filesystem: IFCA
+  output_dir: /home/jovyan/work/out-logs/
+  code_dir: /home/jovyan/work/auto-s2s/
