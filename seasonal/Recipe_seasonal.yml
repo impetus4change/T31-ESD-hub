@@ -7,7 +7,7 @@ Analysis:
   Variables:
     name: tas
     freq: daily_mean
-  ncores: 4
+  ncores: 16
   Datasets:
     System:
       name: ECMWF-SEAS5
@@ -34,7 +34,7 @@ Analysis:
     Calibration:
       method: none
     Skill:
-      metric: BSS10 BSS90 RPSS
+      metric: BSS10 BSS90 RPSS EnsCorr
       save: none
     Anomalies:
       compute: TRUE
